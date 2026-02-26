@@ -1,20 +1,25 @@
+
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barchart avec D3.js</title>
+    <title>Barchart with D3.js</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
         .bar {
             fill: steelblue;
         }
+
         .bar:hover {
             fill: orange;
         }
+
         .axis text {
             font-size: 12px;
         }
+
         .axis path,
         .axis line {
             fill: none;
@@ -23,8 +28,14 @@
         }
     </style>
 </head>
+
 <body>
+    <h1>Hello World!</h1>
+    <p>Hello World!</p>
+
     <div id="chart"></div>
+
+    <a href="https://github.com/msaintlu/d3LovesReactCourse_git">View source on GitHub</a>
 
     <script>
         const data = [
@@ -42,10 +53,10 @@
         // Création du SVG
         const svg = d3.select("#chart")
             .append("svg")
-                .attr("width", width + margin.left + margin.right)
-                .attr("height", height + margin.top + margin.bottom)
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
             .append("g")
-                .attr("transform", `translate(${margin.left},${margin.top})`);
+            .attr("transform", `translate(${margin.left},${margin.top})`);
 
         // Échelles
         const x = d3.scaleBand()
@@ -62,11 +73,11 @@
             .data(data)
             .enter()
             .append("rect")
-                .attr("class", "bar")
-                .attr("x", d => x(d.name))
-                .attr("y", d => y(d.value))
-                .attr("width", x.bandwidth())
-                .attr("height", d => height - y(d.value));
+            .attr("class", "bar")
+            .attr("x", d => x(d.name))
+            .attr("y", d => y(d.value))
+            .attr("width", x.bandwidth())
+            .attr("height", d => height - y(d.value));
 
         // Ajout des axes
         svg.append("g")
@@ -79,4 +90,5 @@
             .call(d3.axisLeft(y));
     </script>
 </body>
+
 </html>
