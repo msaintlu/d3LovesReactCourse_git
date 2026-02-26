@@ -1,2 +1,82 @@
-<h1>Hello World!</h1>
-<p>Hello World!</p>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barchart avec D3.js</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        .bar {
+            fill: steelblue;
+        }
+        .bar:hover {
+            fill: orange;
+        }
+        .axis text {
+            font-size: 12px;
+        }
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+    </style>
+</head>
+<body>
+    <div id="chart"></div>
+
+    <script>
+        const data = [
+            { name: "A", value: 1 },
+            { name: "B", value: 5 },
+            { name: "C", value: 8 },
+            { name: "D", value: 10 }
+        ];
+
+        // Dimensions du graphique
+        const margin = { top: 20, right: 20, bottom: 30, left: 40 };
+        const width = 500 - margin.left - margin.right;
+        const height = 300 - margin.top - margin.bottom;
+
+        // Création du SVG
+        const svg = d3.select("#chart")
+            .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        // Échelles
+        const x = d3.scaleBand()
+            .domain(data.map(d => d.name))
+            .range([0, width])
+            .padding(0.1);
+
+        const y = d3.scaleLinear()
+            .domain([0, d3.max(data, d => d.value)])
+            .range([height, 0]);
+
+        // Ajout des barres
+        svg.selectAll(".bar")
+            .data(data)
+            .enter()
+            .append("rect")
+                .attr("class", "bar")
+                .attr("x", d => x(d.name))
+                .attr("y", d => y(d.value))
+                .attr("width", x.bandwidth())
+                .attr("height", d => height - y(d.value));
+
+        // Ajout des axes
+        svg.append("g")
+            .attr("class", "axis axis--x")
+            .attr("transform", `translate(0,${height})`)
+            .call(d3.axisBottom(x));
+
+        svg.append("g")
+            .attr("class", "axis axis--y")
+            .call(d3.axisLeft(y));
+    </script>
+</body>
+</html>
